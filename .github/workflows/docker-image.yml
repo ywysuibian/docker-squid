@@ -49,8 +49,8 @@ jobs:
         # Password for API authentication
         cf_password: ${{ secrets.CF_API_KEY }}
         # Target Organization
-        # cf_org: # optional
+        cf_org: ${{ secrets.CF_ORG }}
         # Target Space
-        # cf_space: # optional
+        cf_space: dev
         # Command to run using CF CLI
         command: push myappinqq -o "$DOCKER_HUB_ORG"/"$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_TAG" -m 256M
