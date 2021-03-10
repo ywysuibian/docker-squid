@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+        
     - name: Login to Docker Hub
       uses: docker/login-action@v1
       with:
@@ -36,3 +36,21 @@ jobs:
     - name: Push the image to DockerHub
       run: |
         docker push "$DOCKER_HUB_ORG"/"$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_TAG"
+
+    - name: CF CLI Action
+      # You may pin to the exact commit or the version.
+      # uses: citizen-of-planet-earth/cf-cli-action@3c7cc1a77152f9157b0c33b32d3b2b5fbdc56dca
+      uses: citizen-of-planet-earth/cf-cli-action@v2
+      with:
+        # Target API Endpoint of Cloud Foundry
+        cf_api: https://api.us-south.cf.cloud.ibm.com
+        # Username for API authentication
+        cf_username: apikey
+        # Password for API authentication
+        cf_password: ${{ secrets.CF_API_KEY }}
+        # Target Organization
+        # cf_org: # optional
+        # Target Space
+        # cf_space: # optional
+        # Command to run using CF CLI
+        command: push myappinqq -o "$DOCKER_HUB_ORG"/"$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_TAG" -m 256M
